@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDXL Studio - Complete Setup & Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #ec4899;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f1f5f9;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 15px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: slideDown 0.6s ease;
+        }
+
+        body.dark-mode header {
+            background: #1e293b;
+            color: white;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        header .tagline {
+            font-size: 1.3em;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+
+        body.dark-mode header .tagline {
+            color: #cbd5e1;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Top Controls */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .control-btn {
+            background: #1e293b;
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            animation: slideDown 0.6s ease 0.1s backwards;
+        }
+
+        body.dark-mode nav {
+            background: #1e293b;
+        }
+
+        nav h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        nav a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        body.dark-mode nav a {
+            color: #60a5fa;
+        }
+
+        nav a:hover {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(124, 58, 237, 0.1));
+            border-left-color: var(--primary);
+            padding-left: 20px;
+            transform: translateX(5px);
+        }
+
+        /* Main Content */
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease 0.2s backwards;
+        }
+
+        body.dark-mode .content {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px dashed var(--border);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .section-icon {
+            font-size: 3em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 2.2em;
+            flex: 1;
+        }
+
+        body.dark-mode .section-header h2 {
+            color: #60a5fa;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: var(--accent);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        /* Code Blocks */
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+
+        body.dark-mode code {
+            background: #0f172a;
+            color: #60a5fa;
+        }
+
+        .code-block {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            border: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        /* Steps */
+        .steps {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05));
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .steps {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(124, 58, 237, 0.1));
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        /* Info Boxes */
+        .info-box, .success-box, .warning-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left-color: var(--primary);
+            color: #0c4a6e;
+        }
+
+        body.dark-mode .info-box {
+            background: rgba(37, 99, 235, 0.15);
+            color: #93c5fd;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left-color: var(--success);
+            color: #166534;
+        }
+
+        body.dark-mode .success-box {
+            background: rgba(34, 197, 94, 0.15);
+            color: #86efac;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left-color: var(--warning);
+            color: #92400e;
+        }
+
+        body.dark-mode .warning-box {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        body.dark-mode table {
+            background: #0f172a;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode td {
+            border-bottom-color: #334155;
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        body.dark-mode tr:hover {
+            background: #0f172a;
+        }
+
+        /* Feature Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+        }
+
+        .feature h4 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            padding-left: 50px;
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 25px;
+            width: 3px;
+            height: 35px;
+            background: var(--border);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin: 10px 10px 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.6s ease 0.3s backwards;
+        }
+
+        body.dark-mode footer {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .footer-title {
+            color: #60a5fa;
+        }
+
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 20px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .top-controls {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            pre {
+                font-size: 0.85em;
+            }
+
+            .step {
+                gap: 15px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        /* Smooth Transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .toc-link.active {
+            color: var(--primary);
+            font-weight: bold;
+            background: var(--light);
+            padding-left: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd60a 0%, #ffc300 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Progress Indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Top Controls -->
+    <div class="top-controls">
+        <button class="control-btn" id="darkModeBtn" title="Toggle Dark Mode">🌙</button>
+        <button class="control-btn" id="scrollTopBtn" title="Scroll to Top" style="display:none;">↑</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎨 SDXL Studio</h1>
+            <p class="tagline">Complete Setup Guide & Professional Documentation</p>
+            <div class="badges">
+                <span class="badge">🚀 Production Ready</span>
+                <span class="badge">📚 Complete Guide</span>
+                <span class="badge">💯 Free Forever</span>
+                <span class="badge">⚡ Fast Setup</span>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <h3>📑 Quick Navigation</h3>
+            <ul id="toc">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li><a href="#features" class="toc-link">Features</a></li>
+                <li><a href="#colab" class="toc-link">Colab Setup</a></li>
+                <li><a href="#local" class="toc-link">Local Setup</a></li>
+                <li><a href="#react" class="toc-link">React App</a></li>
+                <li><a href="#github" class="toc-link">GitHub Setup</a></li>
+                <li><a href="#deployment" class="toc-link">Deployment</a></li>
+                <li><a href="#faq" class="toc-link">FAQ & Help</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Overview -->
+            <section id="overview">
+                <div class="section-header">
+                    <span class="section-icon">🚀</span>
+                    <h2>Overview</h2>
+                </div>
+
+                <p>SDXL Studio is a complete, professional AI image generation application that combines the power of Stable Diffusion XL with a beautiful React interface. This documentation covers everything you need to set up, deploy, and use the system.</p>
+
+                <div class="info-box">
+                    <strong>ℹ️ What You'll Build:</strong> A beautiful, professional image generation app running locally on your computer with a complete backend API in Google Colab.
+                </div>
+
+                <h3>System Architecture</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>Google Colab (Backend)
+        ↓
+Stable Diffusion XL (Model)
+        ↓
+ngrok Tunnel (Public API)
+        ↓
+React App (Frontend)
+        ↓
+Your Computer (Local)</code></pre>
+                </div>
+
+                <h3>Key Technologies</h3>
+                <ul>
+                    <li><strong>Frontend:</strong> React 18, Tailwind CSS, Lucide Icons</li>
+                    <li><strong>Backend:</strong> Stable Diffusion XL in Google Colab</li>
+                    <li><strong>API:</strong> FastAPI + ngrok tunnel</li>
+                    <li><strong>Deployment:</strong> Vercel, Netlify, or custom server</li>
+                    <li><strong>Version Control:</strong> Git & GitHub</li>
+                </ul>
+            </section>
+
+            <!-- Features -->
+            <section id="features">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2>Features</h2>
+                </div>
+
+                <div class="features">
+                    <div class="feature">
+                        <h4>🎨 Beautiful UI</h4>
+                        <p>Dark theme with modern design, smooth animations, and professional styling</p>
+                    </div>
+                    <div class="feature">
+                        <h4>⚡ Real-time Monitoring</h4>
+                        <p>See GPU status and VRAM usage in real-time while generating images</p>
+                    </div>
+                    <div class="feature">
+                        <h4>🎛️ Full Control</h4>
+                        <p>Adjust steps, guidance scale, seed, and dimensions with sliders</p>
+                    </div>
+                    <div class="feature">
+                        <h4>💾 Easy Download</h4>
+                        <p>Save generated images as PNG with one click</p>
+                    </div>
+                    <div class="feature">
+                        <h4>🔄 Reproducible Results</h4>
+                        <p>Use seeds to generate identical images or variations</p>
+                    </div>
+                    <div class="feature">
+                        <h4>🚀 Fast Generation</h4>
+                        <p>30-45 seconds per image on free Google Colab T4 GPU</p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ All Features Are FREE!</strong> No subscription needed - powered by free Google Colab GPU access.
+                </div>
+            </section>
+
+            <!-- Colab Setup -->
+            <section id="colab">
+                <div class="section-header">
+                    <span class="section-icon">📓</span>
+                    <h2>Google Colab Setup</h2>
+                </div>
+
+                <p>Google Colab provides free GPU access to run your AI model. This section covers the complete setup process.</p>
+
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>Google Account (Gmail)</li>
+                    <li>HuggingFace account (for model access)</li>
+                    <li>ngrok account (for public API)</li>
+                </ul>
+
+                <h3>Step-by-Step Setup</h3>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Create HuggingFace Account</h4>
+                            <p>Go to <code>https://huggingface.co/settings/tokens</code> and create a new read token for faster model downloads.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Create ngrok Account</h4>
+                            <p>Visit <code>https://ngrok.com</code> and create an account. Copy your authtoken from the dashboard.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Open Colab</h4>
+                            <p>Go to <code>https://colab.research.google.com</code> and upload your SDXL notebook.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Enable T4 GPU</h4>
+                            <p>Click <strong>Runtime → Change runtime type</strong> and select <span class="highlight">T4 GPU</span>. This is critical!</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Add Secrets</h4>
+                            <p>Click the 🔑 icon and add your HF_TOKEN and NGROK_AUTHTOKEN</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Run Cells</h4>
+                            <p>Execute cells 0 → 1.1 → 1.2 → 1.3 → 3. Keep Cell 3 running!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Keep Cell 3 running while using your app. When you close Colab, your API stops working.
+                </div>
+
+                <h3>Expected Output</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>🚀 SDXL API is LIVE
+=====================================================
+Public URL   : https://abc-123-def.ngrok-free.app
+Health check : https://abc-123-def.ngrok-free.app/health
+Generate     : POST https://abc-123-def.ngrok-free.app/generate
+=====================================================</code></pre>
+                </div>
+
+                <p><strong>Save this URL!</strong> You'll need it for your React app.</p>
+            </section>
+
+            <!-- Local Setup -->
+            <section id="local">
+                <div class="section-header">
+                    <span class="section-icon">💻</span>
+                    <h2>Local Development Setup</h2>
+                </div>
+
+                <p>Run the SDXL Studio app locally on your computer using Node.js and React.</p>
+
+                <h3>Installation Steps</h3>
+
+                <h4>1. Install Node.js</h4>
+                <p>Download from <code>https://nodejs.org</code> (LTS version), install it, and restart your computer.</p>
+
+                <h4>2. Create React App</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>npx create-react-app sdxl-studio
+cd sdxl-studio</code></pre>
+                </div>
+
+                <h4>3. Add React Code</h4>
+                <ul>
+                    <li>Open <code>src/App.js</code></li>
+                    <li>Delete all content</li>
+                    <li>Paste the SDXL React code provided</li>
+                    <li>Save the file</li>
+                </ul>
+
+                <h4>4. Install Dependencies</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>npm install lucide-react</code></pre>
+                </div>
+
+                <h4>5. Start Your App</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>npm start</code></pre>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Success!</strong> Browser opens at <code>http://localhost:3000</code>
+                </div>
+
+                <h3>Using Your App</h3>
+                <ol>
+                    <li>Get your ngrok URL from Colab</li>
+                    <li>Paste into the "Connection" field</li>
+                    <li>Click "Test Connection"</li>
+                    <li>Enter a prompt and click "Generate"</li>
+                    <li>Wait 30-45 seconds for your image</li>
+                    <li>Download and enjoy! 🎉</li>
+                </ol>
+            </section>
+
+            <!-- React App -->
+            <section id="react">
+                <div class="section-header">
+                    <span class="section-icon">⚛️</span>
+                    <h2>React Application</h2>
+                </div>
+
+                <p>The React app provides a beautiful interface for AI image generation with complete parameter control.</p>
+
+                <h3>Parameter Guide</h3>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Default</th>
+                            <th>Range</th>
+                            <th>Effect</th>
+                        </tr>
+                        <tr>
+                            <td>Steps</td>
+                            <td>30</td>
+                            <td>10-50</td>
+                            <td>Higher = better quality, slower</td>
+                        </tr>
+                        <tr>
+                            <td>Guidance Scale</td>
+                            <td>7.5</td>
+                            <td>1-15</td>
+                            <td>Higher = stricter prompt adherence</td>
+                        </tr>
+                        <tr>
+                            <td>Seed</td>
+                            <td>-1</td>
+                            <td>Any</td>
+                            <td>-1=random, fixed=reproducible</td>
+                        </tr>
+                        <tr>
+                            <td>Width/Height</td>
+                            <td>1024</td>
+                            <td>512, 1024</td>
+                            <td>Image dimensions (optimized at 1024)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Prompt Engineering Tips</h3>
+                <p>Use this structure for best results:</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code>[Subject] + [Style] + [Lighting] + [Quality] + [Resolution]
+
+Example:
+"A majestic eagle soaring over snowy mountains, 
+photorealistic, cinematic lighting, 
+8k resolution, intricate details, masterfully crafted"</code></pre>
+                </div>
+            </section>
+
+            <!-- GitHub Setup -->
+            <section id="github">
+                <div class="section-header">
+                    <span class="section-icon">🌐</span>
+                    <h2>GitHub Setup & Version Control</h2>
+                </div>
+
+                <p>Push your code to GitHub for backup, version control, and easy deployment.</p>
+
+                <h3>Complete GitHub Workflow</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>1. Create GitHub Account</h4>
+                        <p>Go to <code>https://github.com/signup</code> and create your free account.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>2. Install Git</h4>
+                        <p>Download from <code>https://git-scm.com</code> and install. Verify with <code>git --version</code></p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>3. Configure Git</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <pre><code>git config --global user.name "Your Name"
+git config --global user.email "your@email.com"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>4. Initialize Project</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <pre><code>cd sdxl-studio
+git init
+git add .
+git commit -m "Initial commit: SDXL Studio"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>5. Create Repository</h4>
+                        <p>Go to <code>https://github.com/new</code> and create a repo named <code>sdxl-studio</code></p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>6. Connect & Push</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <pre><code>git remote add origin https://github.com/YOUR_USERNAME/sdxl-studio.git
+git branch -M main
+git push -u origin main</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>7. Verify & Share</h4>
+                        <p>Check your repo at <code>https://github.com/YOUR_USERNAME/sdxl-studio</code></p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Success!</strong> Your code is now backed up on GitHub and ready to share!
+                </div>
+            </section>
+
+            <!-- Deployment -->
+            <section id="deployment">
+                <div class="section-header">
+                    <span class="section-icon">🚀</span>
+                    <h2>Deployment to Production</h2>
+                </div>
+
+                <p>Deploy your app online so anyone can use it without installing anything.</p>
+
+                <h3>Option 1: Vercel (Recommended)</h3>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            Install Vercel: <code>npm install -g vercel</code>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Deploy: <code>vercel</code>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            Get your live URL (e.g., https://sdxl-studio.vercel.app)
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Option 2: Netlify</h3>
+                <ol>
+                    <li>Run: <code>npm run build</code></li>
+                    <li>Go to <code>https://netlify.com</code></li>
+                    <li>Drag your <code>build</code> folder</li>
+                    <li>Get your live URL</li>
+                </ol>
+
+                <div class="info-box">
+                    <strong>Note:</strong> Keep your Colab running for the API to work!
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq">
+                <div class="section-header">
+                    <span class="section-icon">❓</span>
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+
+                <h3>General Questions</h3>
+
+                <h4>Q: Is this completely free?</h4>
+                <p><strong>A:</strong> Yes! Google Colab and ngrok free tiers provide everything you need. No credit card required.</p>
+
+                <h4>Q: How long does image generation take?</h4>
+                <p><strong>A:</strong> 30-45 seconds per image on the free T4 GPU.</p>
+
+                <h4>Q: Can I use images for commercial purposes?</h4>
+                <p><strong>A:</strong> Yes! The code is MIT licensed and images are yours to use.</p>
+
+                <h3>Technical Questions</h3>
+
+                <h4>Q: What if my Colab session times out?</h4>
+                <p><strong>A:</strong> Restart it and run Cell 3 again. You'll get a new ngrok URL.</p>
+
+                <h4>Q: Can I share my API with others?</h4>
+                <p><strong>A:</strong> Yes! Just give them your ngrok URL.</p>
+
+                <h3>Troubleshooting</h3>
+
+                <h4>Q: "Cannot reach API" error</h4>
+                <p><strong>A:</strong> Make sure Colab is running, Cell 3 is active, and your URL is correct.</p>
+
+                <h4>Q: "Port 3000 already in use"</h4>
+                <p><strong>A:</strong> Use <code>npm start -- --port 3001</code></p>
+
+                <div class="success-box">
+                    <strong>Still need help?</strong> Check the complete guides in your /outputs folder!
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="footer-title">🎨 SDXL Studio</p>
+            <p><strong>Complete Setup Guide & Professional Documentation</strong></p>
+            <p>Professional AI Image Generation Made Easy</p>
+            <p style="color: #999; font-size: 0.9em; margin-top: 15px;">
+                Version 1.0 | © 2024 | MIT License | Built with ❤️
+            </p>
+            <div class="social-links">
+                <a href="https://github.com" title="GitHub">📱</a>
+                <a href="https://twitter.com" title="Twitter">𝕏</a>
+                <a href="https://discord.com" title="Discord">💬</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const progressBar = document.getElementById('progressBar');
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeBtn.textContent = '☀️';
+        }
+
+        darkModeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            darkModeBtn.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        });
+
+        // Scroll to Top Button
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = scrollPercent + '%';
+
+            scrollTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Copy Code Button
+        function copyCode(btn) {
+            const code = btn.parentElement.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Update Active Navigation Link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').slice(1);
+                const targetSection = document.getElementById(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Fade in on load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
